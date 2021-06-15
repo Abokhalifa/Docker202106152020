@@ -1,0 +1,11 @@
+FROM openjdk:7
+
+COPY ./DockerTwo.java /usr
+
+WORKDIR /usr
+
+RUN javac DockerTwo.java
+
+RUN java DockerTwo
+
+#CMD ["java","DockerTwo"]

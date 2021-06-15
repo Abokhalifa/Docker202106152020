@@ -1,0 +1,25 @@
+FROM openjdk:6 as builder
+
+WORKDIR /usr/DockerThree
+
+ADD ./DockerThree.java /usr/DockerThree
+
+RUN javac DockerThree.java
+
+FROM openjdk:8 as intermediator
+
+#The working directory is automatically created if it is not there.
+WORKDIR /usr/DockerThree  
+
+COPY --from=0 /usr/DockerThree/DockerThree.class /usr/DockerThree
+
+FROM openjdk:7 as runner
+
+WORKDIR /usr/DockerThree
+
+#Either the name of the base image i.e. runner or the index of the 
+#image i.e. 1. Image builder has an index = 0, image intermediator
+#has an index = 1, and image runner has an index = 2, and so on.
+COPY --from=2 /usr/DockerThree /usr/DockerThree
+
+CMD ["java","DockerThree"]
