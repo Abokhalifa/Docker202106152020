@@ -1,0 +1,9 @@
+FROM openjdk:6 as builder
+
+WORKDIR /usr/app
+
+COPY ./* /usr/app/
+
+RUN javac DockerFour.java
+
+CMD ["java","DockerFour"]
